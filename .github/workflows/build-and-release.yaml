@@ -1,0 +1,90 @@
+name: Build and Publish
+
+on:
+  push:
+    paths:
+      - "packages/*"
+      - "patches/*"
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+    env:
+      BUILDS_DIRECTORY: builds
+      PACKAGES_DIRECTORY: packages
+      PATCHES_DIRECTORY: patches
+    steps:
+      - name: Add Chaotic AUR, update system and install Git
+        run: |
+          pacman-key --init
+          pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
+          pacman-key --lsign-key FBA220DFC880C036
+          pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
+            'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+          echo -e "[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" >>/etc/pacman.conf
+          pacman --noconfirm -Syu git
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Create builds folder
+        run: mkdir -p "$BUILDS_DIRECTORY"
+
+      - name: Apply patches
+        run: |
+          cd "$PATCHES_DIRECTORY"
+
+          for file in *.patch; do
+            patch -d"../packages/${file%.patch}/" -p1 <"$file"
+          done
+
+      - name: Disable makepkg root exit
+        run: sed -i 's/exit $E_ROOT//' "$(which makepkg)"
+
+      - name: Build packages
+        run: |
+          cd "$PACKAGES_DIRECTORY"
+
+          for folder in *; do
+            (
+              cd $folder
+              makepkg --printsrcinfo >.SRCINFO
+              makepkg --noconfirm -s
+            )
+          done
+
+          mv */*.pkg.tar.zst "../$BUILDS_DIRECTORY"
+
+      - name: Create repository
+        run: |
+          cd $BUILDS_DIRECTORY
+          repo-add tuhana.db.tar.zst ./*
+
+      - name: Create release and upload builds
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          artifacts: ${{ env.BUILDS_DIRECTORY }}/*
+          body: |
+            ## Release Built Packages
+            Latest commit:
+            ```
+            ${{ github.event.head_commit.message }}
+            ```
+          name: Release Builds
+          tag: release
+
+      - name: Try to upload files again if release action uploads fails
+        if: failure()
+        uses: echapmanFromBunnings/upload-release-assets@1.2
+        with:
+          releaseTag: release
+          githubToken: ${{ github.token }}
+          files: ${{ env.BUILDS_DIRECTORY }}/*
