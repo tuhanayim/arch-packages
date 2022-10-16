@@ -1,0 +1,21 @@
+diff --git a/PKGBUILD b/PKGBUILD
+index 9a32012..8a21ff4 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -1,6 +1,6 @@
+ # Maintainer: D. Can Celasun <can[at]dcc[dot]im>
+ 
+-pkgname=visual-studio-code-bin
++pkgname=visual-studio-code
+ _pkgname=visual-studio-code
+ pkgver=1.72.2
+ pkgrel=1
+@@ -10,7 +10,7 @@ url="https://code.visualstudio.com/"
+ license=('custom: commercial')
+ provides=('code' 'vscode')
+ conflicts=('code')
+-install=$pkgname.install
++install=$pkgname-bin.install
+ # lsof: needed for terminal splitting, see https://github.com/Microsoft/vscode/issues/62991
+ # xdg-utils: needed for opening web links with xdg-open
+ depends=(libxkbfile gnupg gtk3 libsecret nss gcc-libs libnotify libxss glibc lsof shared-mime-info xdg-utils alsa-lib)

@@ -1,0 +1,12 @@
+[submodule "packages/visual-studio-code"]
+	path = packages/visual-studio-code
+	url = https://aur.archlinux.org/visual-studio-code-bin.git
+[submodule "packages/distrobox"]
+	path = packages/distrobox
+	url = https://aur.archlinux.org/distrobox.git
+[submodule "packages/python-material-color-utilities"]
+	path = packages/python-material-color-utilities
+	url = https://aur.archlinux.org/python-material-color-utilities.git
+[submodule "packages/kde-material-you-colors-git"]
+	path = packages/kde-material-you-colors-git
+	url = https://aur.archlinux.org/kde-material-you-colors-git.git

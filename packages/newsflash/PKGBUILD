@@ -1,0 +1,29 @@
+# Maintainer: Tuhana GAYRETLİ <hi at tuhana dot me>
+# shellcheck disable=SC2034,SC2148,SC2164,SC2154
+
+pkgname=newsflash
+_repo_name=news_flash_gtk
+pkgver=2.1.2
+pkgrel=1
+pkgdesc='The spiritual successor to FeedReader'
+arch=(any)
+url='https://gitlab.com/news-flash/news_flash_gtk'
+license=(GPL3)
+depends=(libadwaita libhandy webkit2gtk-5.0)
+makedepends=(git meson ninja rust)
+conflicts=(newsflash)
+source=("git+https://gitlab.com/news-flash/$_repo_name.git#tag=v.$pkgver")
+sha512sums=('SKIP')
+
+build() {
+  cd "$srcdir/$_repo_name"
+
+  arch-meson _build
+  ninja -C _build
+}
+
+package() {
+  cd "$srcdir/$_repo_name"
+
+  env DESTDIR="$pkgdir" ninja -C _build install
+}
