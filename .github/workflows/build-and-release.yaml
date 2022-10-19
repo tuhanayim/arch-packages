@@ -1,10 +1,6 @@
 name: Build and Publish
 
 on:
-  push:
-    paths:
-      - "packages/*"
-      - "patches/*"
   workflow_dispatch:
 
 jobs:

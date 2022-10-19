@@ -10,3 +10,6 @@
 [submodule "packages/kde-material-you-colors-git"]
 	path = packages/kde-material-you-colors-git
 	url = https://aur.archlinux.org/kde-material-you-colors-git.git
+[submodule "packages/tutanota-desktop"]
+	path = packages/tutanota-desktop
+	url = https://aur.archlinux.org/tutanota-desktop.git

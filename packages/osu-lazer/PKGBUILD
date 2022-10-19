@@ -28,11 +28,15 @@ sha256sums=(
   'e6ec9d911b12511681431fa86322c3904b0ab0faf4c5afe6671fa0b3beb5813c'
 )
 
-package() {
+prepare() {
   cd "$srcdir"
 
   chmod +x osu.AppImage
   ./osu.AppImage --appimage-extract >/dev/null
+}
+
+package() {
+  cd "$srcdir"
 
   # Launch script, desktop entry and MIME type
   install -Dm755 -t "$pkgdir/usr/bin" sh.ppy.osu.lazer
