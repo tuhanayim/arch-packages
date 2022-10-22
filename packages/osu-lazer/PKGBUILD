@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034,SC2148,SC2164,SC2154
 
 pkgname=osu-lazer
-pkgver=2022.1008.2
+pkgver=2022.1022.0
 pkgrel=1
 pkgdesc='An open source, free-to-win rhythm game. Rhythm is just a click away!'
 arch=(x86_64)
@@ -20,7 +20,7 @@ source=(
 )
 noextract=('osu.AppImage')
 sha256sums=(
-  '01f8b6e8c69c42fca947a5834757d6d103b3a92a4ca40a6eb2aa44f8cb8bca25'
+  'c05ef95a7dd96b392f8ad0a6af857d701703e096e5845aaf18f61b356d444cf8'
   '4adebcd0ad5e32f2e770c580fc8e6c7b4b4b4304bf15180b88bfb4db3f1b64f7'
   '3c3c252e45e3506fda9c44628ee8ec4ba06cf582c69fe1ef2d1ee3ef93bafa47'
   '32a83fbd6a91ac734972440a690d8b398140b3b00404022a172040ff5efc6d6f'
