@@ -13,3 +13,6 @@
 [submodule "packages/tutanota-desktop"]
 	path = packages/tutanota-desktop
 	url = https://aur.archlinux.org/tutanota-desktop.git
+[submodule "packages/google-chrome-dev"]
+	path = packages/google-chrome-dev
+	url = https://aur.archlinux.org/google-chrome-dev.git
